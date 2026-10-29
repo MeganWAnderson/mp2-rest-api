@@ -12,6 +12,7 @@ from src import (
     HealthResponse,
     ProcessConfig,
     ProcessingReport,
+    log_requests,
     setup_logging,
 )
 
@@ -19,6 +20,7 @@ setup_logging(verbose=True)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Data Processing API", version="1.0.0")
+app.middleware("http")(log_requests)
 storage = DatasetStorage()
 
 @app.get("/health", response_model=HealthResponse)
